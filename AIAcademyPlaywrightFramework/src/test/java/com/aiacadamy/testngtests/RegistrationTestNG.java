@@ -10,17 +10,17 @@ import org.testng.annotations.Test;
 public class RegistrationTestNG extends BaseTest {
     @Test
     public void verifyRegistration(){
-        LoginPage loginpage=new LoginPage(page);
+        LoginPage loginpage=new LoginPage(getPage());
         loginpage.openHomePage();
         loginpage.clickLoginButton();
 
-        RegistrationPage registrationPage=new RegistrationPage(page);
+        RegistrationPage registrationPage=new RegistrationPage(getPage());
         registrationPage.openRegistrationPage();
         registrationPage.enterName(ConfigReader.getProperty("new.name"));
         registrationPage.enterEmail(ConfigReader.getProperty("new.email"));
         registrationPage.enterPassword(ConfigReader.getProperty("new.password"));
         registrationPage.clickTermsCheckbox();
-        page.pause();
+        getPage().pause();
         registrationPage.clickCreateAccount();
         String actualHeading= registrationPage.getVerificationHeading();
         Assert.assertEquals(actualHeading,"Check Your Email");

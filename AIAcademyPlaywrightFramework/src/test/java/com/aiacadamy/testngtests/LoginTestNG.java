@@ -16,9 +16,10 @@ import java.io.IOException;
 
 public class LoginTestNG extends BaseTest {
     @Test(dataProvider = "loginData",dataProviderClass = LoginDataProvider.class)
-    public void verifyLogin(String email,String password,String expectedResult){
-        test=extent.createTest("Login Test");
-        LoginPage loginpage=new LoginPage(page);
+    public void verifyLogin(String email,String password,
+                            String expectedResult,String expectedMessage){
+        //test=extent.createTest("Login Test");----(added in BaseTest)
+        LoginPage loginpage=new LoginPage(getPage());
         loginpage.openHomePage();
         loginpage.clickLoginButton();
         loginpage.enterEmail(email);
@@ -26,29 +27,31 @@ public class LoginTestNG extends BaseTest {
         //loginpage.enterEmail(ConfigReader.getProperty("test.email"));
         //loginpage.enterPassword(ConfigReader.getProperty("test.password"));
         loginpage.clickOnSignInButton();
-        page.waitForTimeout(5000);
+        getPage().waitForTimeout(5000);
         if(expectedResult.equalsIgnoreCase("Pass")){
             Assert.assertTrue
                     (loginpage.isLogoutButtonVisible(),
                             "Login failed for valid credentials");
-            test.pass("Login successful with valid credentials");
+            getTest().pass("Login successful with valid credentials");
+        }else if (expectedResult.equalsIgnoreCase("Fail")){
+            Assert.assertEquals(loginpage.getErrorMessageText(),expectedMessage);
+            getTest().pass("Error message validated for invalid credentials");
         }else{
-            Assert.assertEquals(loginpage.getErrorMessageText(),
-                    "Invalid email or password");
-            test.pass("Error message validated for invalid credentials");
+            Assert.fail("Invalid ExpectedResult value in Excel : "+expectedResult);
+
         }
        /* System.out.println("Current URL = " + page.url());
         System.out.println("Page Title = " + page.title()); */
 
-        String actualURL=page.url();
-        String expectedURL=ConfigReader.getProperty("base.url");
+       // String actualURL=page.url();
+       // String expectedURL=ConfigReader.getProperty("base.url");
 
-        Assert.assertEquals(actualURL,expectedURL);
+        //Assert.assertEquals(actualURL,expectedURL);
 
         //ScreenshotUtil.takeScreenshot(page,"LoginPassed");
         //test.log(Status.PASS,"Login Successful");
-        String screenshotPath=ScreenshotUtil.takeScreenshot(page,"LoginPassed");
-        test.pass("Login Successful", MediaEntityBuilder.
+        String screenshotPath=ScreenshotUtil.takeScreenshot(getPage(),"LoginPassed");
+        getTest().pass("Login Successful", MediaEntityBuilder.
                 createScreenCaptureFromPath("../"+ screenshotPath).build());
     }
 

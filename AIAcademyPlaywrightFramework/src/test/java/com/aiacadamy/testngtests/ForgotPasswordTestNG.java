@@ -11,14 +11,14 @@ import org.testng.annotations.Test;
 public class ForgotPasswordTestNG extends BaseTest {
     @Test
     public void verifyForgotPasswordLink(){
-        LoginPage loginpage=new LoginPage(page);
+        LoginPage loginpage=new LoginPage(getPage());
         loginpage.openHomePage();
         loginpage.clickLoginButton();
 
-        ForgotPasswordPage forgotPasswordPage=new ForgotPasswordPage(page);
-        forgotPasswordPage.openForgotPsswordPage();
+        ForgotPasswordPage forgotPasswordPage=new ForgotPasswordPage(getPage());
+        forgotPasswordPage.openForgotPasswordPage();
 
-        Assert.assertTrue(page.url().contains("forgot-password"));
+        Assert.assertTrue(getPage().url().contains("forgot-password"));
 
         forgotPasswordPage.enterEmail(ConfigReader.getProperty("test.email"));
         forgotPasswordPage.clickSendResetLink();

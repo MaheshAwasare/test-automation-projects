@@ -19,7 +19,7 @@ public class ExcelUtils {
         Sheet sheet= workbook.getSheet(sheetName);
         int rowCount=sheet.getPhysicalNumberOfRows();
 
-        Object[][]data=new Object[rowCount-1][3];
+        Object[][]data=new Object[rowCount-1][4];
 
         System.out.println("Total Rows : "+rowCount);
         for(int i=1; i<rowCount; i++){
@@ -29,14 +29,20 @@ public class ExcelUtils {
             Cell emailCell = row.getCell(0);
             Cell paaswordCell = row.getCell(1);
             Cell expectedResultCell = row.getCell(2);
+            Cell expectedMessageCell = row.getCell(3);
 
             String email = emailCell.toString();
             String password = paaswordCell.toString();
             String expectedResult=expectedResultCell.toString();
 
+
+            String expectedMessage=expectedMessageCell !=
+                    null ?expectedMessageCell.toString():"";
+
             data[i-1][0]=email;
             data[i-1][1]=password;
             data[i-1][2]=expectedResult;
+            data[i-1][3]=expectedMessage;
 
             System.out.println(email);
             System.out.println(password);

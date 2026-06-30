@@ -8,7 +8,7 @@ public class ForgotPasswordPage {
     public ForgotPasswordPage(Page page){
         this.page=page;
     }
-    public void openForgotPsswordPage(){
+    public void openForgotPasswordPage(){
         page.locator("text=Forgot your password?").click();
     }
     public String getCurrentURL(){

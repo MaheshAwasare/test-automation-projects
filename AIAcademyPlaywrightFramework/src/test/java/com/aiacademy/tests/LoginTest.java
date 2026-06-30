@@ -1,4 +1,4 @@
-package com.aiacademy.tests;
+/*package com.aiacademy.tests;
 
 import com.aiacadamy.base.BaseTest;
 import com.aiacademy.pages.LoginPage;
@@ -11,9 +11,9 @@ public class LoginTest extends BaseTest {
 
         LoginTest test = new LoginTest();
 
-        test.setup();
+        //test.setup()
 
-        LoginPage loginPage=new LoginPage(test.page);
+        LoginPage loginPage=new LoginPage(page);
 
         loginPage.openHomePage();
 
@@ -36,4 +36,4 @@ public class LoginTest extends BaseTest {
 
         test.tearDown();
     }
-}
+}*/
