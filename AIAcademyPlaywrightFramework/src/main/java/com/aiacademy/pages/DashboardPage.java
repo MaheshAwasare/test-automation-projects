@@ -7,19 +7,28 @@ import com.microsoft.playwright.options.AriaRole;
 public class DashboardPage {
 
     private final Page page;
-    private final Locator programmingForBeginnersCategory;
+
+    private final Locator allCoursesButton;
 
     public DashboardPage(Page page) {
-        this.page = page;
-        programmingForBeginnersCategory =
-                page.getByRole(
-                        AriaRole.TAB,
-                        new Page.GetByRoleOptions()
-                                .setName("Programming for Beginners")
-                );
-    }
 
-    public void clickProgrammingForBeginnersCategory(){
-        programmingForBeginnersCategory.click();
+        this.page = page;
+
+        this.allCoursesButton = page.getByRole(
+                AriaRole.TAB,
+                new Page.GetByRoleOptions()
+                        .setName("All Courses")
+        );
+    }
+    public void clickAllCourses() {
+
+        allCoursesButton.waitFor();
+
+        allCoursesButton.click();
+    }
+    public boolean isDashboardLoaded() {
+
+        return allCoursesButton.isVisible();
+
     }
 }

@@ -1,13 +1,11 @@
 package com.aiacadamy.base;
 
+import com.aiacademy.pages.*;
 import com.aiacademy.utils.ConfigReader;
 import com.aiacademy.utils.ExtentManager;
-import com.aiacademy.utils.ScreenshotUtil;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.microsoft.playwright.*;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Listeners;
@@ -29,6 +27,13 @@ public class BaseTest {
     protected ExtentReports extent;
     //protected ExtentTest test;
     protected static ThreadLocal<ExtentTest>test = new ThreadLocal<>();
+    // Page Objects
+    protected LoginPage loginPage;
+    protected DashboardPage dashboardPage;
+    protected FreeCoursesPage freeCoursesPage;
+    protected CourseDetailsPage courseDetailsPage;
+    protected ModuleDetailsPage moduleDetailsPage;
+
 
     @BeforeMethod
     public void setup(Method method) {
@@ -48,6 +53,21 @@ public class BaseTest {
         page.set(context.get().newPage());
 
         page.get().navigate(ConfigReader.getProperty("base.url"));
+    }
+    @BeforeMethod(dependsOnMethods = "setup")
+    public void loginToApplication(){
+        loginPage = new LoginPage(getPage());
+        loginPage.openHomePage();
+        loginPage.clickLoginButton();
+        loginPage.enterEmail(ConfigReader.getProperty("test.email"));
+        loginPage.enterPassword(ConfigReader.getProperty("test.password"));
+        loginPage.clickOnSignInButton();
+
+        // Initialize all page objects after successful login
+        dashboardPage = new DashboardPage(getPage());
+        freeCoursesPage = new FreeCoursesPage(getPage());
+        courseDetailsPage = new CourseDetailsPage(getPage());
+        moduleDetailsPage = new ModuleDetailsPage(getPage());
     }
    /* @AfterMethod
     public void captureFailure(ITestResult result){
