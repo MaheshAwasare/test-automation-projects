@@ -26,6 +26,7 @@ public class FreeCoursesPage {
     // Methods
     //Wait until course cards are visible.
     public void waitForCourseList() {
+
         courseCards.first().waitFor();
     }
     // Returns total number of courses.

@@ -9,6 +9,8 @@ public class DashboardPage {
     private final Page page;
 
     private final Locator allCoursesButton;
+    private final Locator topNavigationLinks;
+    private final Locator startMyAIJourneyButton;
 
     public DashboardPage(Page page) {
 
@@ -18,6 +20,12 @@ public class DashboardPage {
                 AriaRole.TAB,
                 new Page.GetByRoleOptions()
                         .setName("All Courses")
+        );
+        topNavigationLinks = page.locator("a.nav-btn");
+        startMyAIJourneyButton = page.getByRole(
+                AriaRole.LINK,
+                new Page.GetByRoleOptions()
+                        .setName("Start My AI Journey")
         );
     }
     public void clickAllCourses() {
@@ -31,4 +39,33 @@ public class DashboardPage {
         return allCoursesButton.isVisible();
 
     }
+    public void clickTopNavigation(String menuName) {
+
+        topNavigationLinks
+                .filter(new Locator.FilterOptions().setHasText(menuName))
+                .first()
+                .click();
+
+        page.waitForLoadState();
+    }
+    public String getCurrentUrl() {
+        return page.url();
+    }
+    public void navigateBackToDashboard() {
+
+        page.goBack();
+
+        page.waitForLoadState();
+    }
+    public void clickStartMyAIJourney() {
+
+        startMyAIJourneyButton.click();
+
+        page.waitForLoadState();
+    }
+    public void navigateToCourses() {
+
+        clickTopNavigation("Courses");
+    }
+
 }

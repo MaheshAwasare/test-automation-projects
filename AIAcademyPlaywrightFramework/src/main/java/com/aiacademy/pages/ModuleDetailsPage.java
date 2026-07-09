@@ -1,7 +1,6 @@
 package com.aiacademy.pages;
 
 import com.aiacademy.utils.ConfigReader;
-import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
@@ -17,6 +16,15 @@ public class ModuleDetailsPage {
     private final Locator previousButton;
     private final Locator sidebarModules;
     private final Locator reelModeButton;
+    private final Locator reelViewer;
+    private final Locator activeReel;
+    private final Locator reelTitle;
+    private final Locator reelCounter;
+    private final Locator activeReelTitle;
+    private final Locator breadcrumb ;
+    private final Locator homeBreadcrumb;
+    private final Locator copyButtons;
+
 
     // Constructor
     public ModuleDetailsPage(Page page) {
@@ -26,6 +34,15 @@ public class ModuleDetailsPage {
         previousButton = page.locator("a.prev");
         sidebarModules = page.locator("a.sidebar-link");
         reelModeButton = page.locator("button.reel-toggle");
+        reelViewer = page.locator("div.reel-viewer");
+        activeReel = page.locator("div.reel-card.active");
+        reelTitle =  reelViewer.locator("h1");
+        reelCounter = page.locator("div.reel-progress");
+        activeReelTitle = page.locator("div.reel-card.active h1");
+        breadcrumb= page.locator("div.breadcrumb");
+        homeBreadcrumb=breadcrumb.locator("a");
+        copyButtons = page.locator("button.copy-btn");
+
     }
     // Wait Methods
     public void waitForModulePage() {
@@ -112,11 +129,6 @@ public class ModuleDetailsPage {
         module.scrollIntoViewIfNeeded();
         module.click();
         waitForModulePage();
-    }
-    // Reel Mode
-    public void clickReelMode() {
-        reelModeButton.scrollIntoViewIfNeeded();
-        reelModeButton.click();
     }
     // Reusable Verification Methods
     public void verifyForwardNavigation() {
@@ -225,24 +237,114 @@ public class ModuleDetailsPage {
         System.out.println();
         System.out.println("========== Sidebar Navigation Completed ==========");
     }
-    public void verifyReelMode() {
-        if (!isReelModeButtonVisible()) {
-            throw new AssertionError("Reel Mode Button Not Visible");
-        }
-        clickReelMode();
+    public void waitForReelMode() {
+
+        reelViewer.waitFor();
+
+        page.waitForTimeout(1000);
     }
-    public void verifyAllClickableElements() {
-        if (hasPreviousModule()) {
-            previousButton.isEnabled();
+    // Reel Mode
+    public void clickReelMode() {
+        reelModeButton.scrollIntoViewIfNeeded();
+        reelModeButton.click();
+        page.waitForLoadState();
+        page.waitForTimeout(1500);
+    }
+    public String getActiveReelTitle() {
+
+        return activeReelTitle.innerText().trim();
+    }
+    public String getCurrentReelTitle() {
+
+        return reelTitle.innerText().trim();
+    }
+    public String getCurrentReelCounter() {
+
+        return reelCounter.innerText().trim();
+    }
+    public void scrollNextReel() {
+
+        reelViewer.hover();
+
+        System.out.println("Before Scroll : " + getActiveReelTitle());
+
+        page.mouse().wheel(0, 1200);
+
+        page.waitForTimeout(3000);
+
+        System.out.println("After Scroll : " + getActiveReelTitle());
+
+    }
+    public void scrollTillEnd() {
+
+        System.out.println("Scrolling Reel Mode...");
+
+        for (int i = 0; i < 40; i++) {
+
+            page.mouse().wheel(0, 900);
+
+            page.waitForTimeout(400);
+
         }
-        if (hasNextModule()) {
-            nextButton.isEnabled();
+
+        System.out.println("Reached End Of Reel.");
+
+    }
+    public void closeReelMode() {
+
+        page.keyboard().press("Escape");
+
+        page.waitForTimeout(1000);
+
+    }
+
+    public void verifyReelMode() {
+
+        System.out.println();
+        System.out.println("========== Reel Mode Started ==========");
+
+        if (!isReelModeButtonVisible()) {
+
+            throw new AssertionError("Reel Mode Button Not Visible.");
+
         }
-        reelModeButton.isEnabled();
-        for (int i = 0; i < sidebarModules.count(); i++) {
-            sidebarModules
-                    .nth(i)
-                    .isEnabled();
-        }
+
+        clickReelMode();
+
+        scrollTillEnd();
+
+        navigateBackToModulePage();
+
+        System.out.println("========== Reel Mode Completed ==========");
+        System.out.println();
+
+    }
+    public void navigateBackToModulePage() {
+
+        page.keyboard().press("Escape");
+
+        page.waitForLoadState();
+
+        page.waitForTimeout(1000);
+
+        waitForModulePage();
+
+        System.out.println("Returned to Module Page");
+
+    }
+    public boolean isBreadcrumbVisible(){
+        return breadcrumb.isVisible();
+    }
+    public boolean isHomeBreadcrumbVisible(){
+        return homeBreadcrumb.isVisible();
+    }
+    public String getBreadcrumbText(){
+        return breadcrumb.innerText().trim();
+    }
+    public int getCopyButtonCount() {
+        return copyButtons.count();
+    }
+    public Locator getCopyButtons() {
+        return copyButtons;
     }
 }

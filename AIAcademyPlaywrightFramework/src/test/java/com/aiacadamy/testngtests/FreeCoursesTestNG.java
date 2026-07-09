@@ -110,4 +110,69 @@ public class FreeCoursesTestNG extends BaseTest {
 
         }
     }
+    @Test
+    public void verifyAllFreeCoursesReelMode() {
+        dashboardPage.clickAllCourses();
+        List<String> freeCourses = freeCoursesPage.getAllFreeCourseNames();
+
+        for (String courseName : freeCourses) {
+
+            System.out.println();
+            System.out.println("==================================");
+            System.out.println("Testing Course : " + courseName);
+            System.out.println("==================================");
+            CourseDetailsPage coursePage =
+                    freeCoursesPage.openFreeCourse(courseName);
+
+            System.out.println("Opened Course : " + BaseTest.page.get().url());
+
+            ModuleDetailsPage modulePage =
+                    coursePage.openFirstModule();
+
+            modulePage.verifyReelMode();
+
+            freeCoursesPage.navigateBackToCourses();
+
+
+        }
+    }
+    @Test
+    public void verifyBreadcrumb() {
+        dashboardPage.clickAllCourses();
+        List<String> freeCourses = freeCoursesPage.getAllFreeCourseNames();
+
+        for (String courseName : freeCourses) {
+
+            System.out.println();
+            System.out.println("==================================");
+            System.out.println("Testing Course : " + courseName);
+            System.out.println("==================================");
+            CourseDetailsPage coursePage =
+                    freeCoursesPage.openFreeCourse(courseName);
+
+            System.out.println("Opened Course : " + BaseTest.page.get().url());
+
+            ModuleDetailsPage modulePage =
+                    coursePage.openFirstModule();
+
+            Assert.assertTrue(moduleDetailsPage.isBreadcrumbVisible(),
+                    "Breadcrumb is not visible");
+            Assert.assertTrue(moduleDetailsPage.isHomeBreadcrumbVisible(),
+                    "Home breadcrumb is not visible");
+            String breadcrumbText = moduleDetailsPage.getBreadcrumbText();
+            System.out.println("Breadcrumb : " + breadcrumbText);
+            String[] items = breadcrumbText.split("/");
+            Assert.assertEquals(items[0].trim(), "Home",
+                    "Home breadcrumb is incorrect");
+            Assert.assertFalse(items[1].trim().isEmpty(),
+                    "Course name is missing");
+            Assert.assertTrue(items[2].trim().startsWith("Module"),
+                    "Module breadcrumb is incorrect");
+            System.out.println("Breadcrumb verified successfully");
+
+            freeCoursesPage.navigateBackToCourses();
+
+        }
+    }
+
 }
