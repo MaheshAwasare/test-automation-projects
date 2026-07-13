@@ -3,6 +3,10 @@ package com.aiacademy.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.WaitForSelectorState;
+
+import java.util.List;
 
 public class DashboardPage {
 
@@ -11,6 +15,15 @@ public class DashboardPage {
     private final Locator allCoursesButton;
     private final Locator topNavigationLinks;
     private final Locator startMyAIJourneyButton;
+    private final Locator themeToggleButton;
+    private final Locator htmlTag;
+    private final Locator resumeButton;
+    private final Locator searchInput;
+    private final Locator clearSearchButton;
+    private final Locator searchResultHeader;
+    private final Locator courseCards;
+    private final Locator courseTitles;
+
 
     public DashboardPage(Page page) {
 
@@ -27,6 +40,14 @@ public class DashboardPage {
                 new Page.GetByRoleOptions()
                         .setName("Start My AI Journey")
         );
+        themeToggleButton=page.locator("button[aria-label='Toggle theme']");
+        htmlTag=page.locator("html");
+        resumeButton=page.locator("a.dh-cta");
+        searchInput = page.locator("input.hp-sb-search-input");
+        clearSearchButton = page.getByLabel("Clear filter");
+        searchResultHeader = page.locator("h2");
+        courseCards = page.locator("a.course-card");
+        courseTitles = page.locator("a.course-card h3");
     }
     public void clickAllCourses() {
 
@@ -67,5 +88,75 @@ public class DashboardPage {
 
         clickTopNavigation("Courses");
     }
+    public void clickThemeToggle(){
+        themeToggleButton.click();
+        page.waitForFunction
+                ("() => document.documentElement.getAttribute('data-theme') !== null");
+    }
+    public String getCurrentTheme(){
+        return htmlTag.getAttribute("data-theme");
+    }
+    public boolean isResumeButtonVisible(){
+        resumeButton.waitFor();
+        System.out.println(page.locator("a.dh-cta").count());
+        return resumeButton.isVisible();
+    }
+    public boolean isResumeButtonEnable(){
+        return resumeButton.isEnabled();
+    }
+    public String getResumeButtonText(){
+        return resumeButton.innerText().trim();
+    }
+    public void clickResumeButton(){
+        resumeButton.click();
+        page.waitForLoadState();
+    }
+
+    public void enterSearchText(String searchText) {
+
+        System.out.println("Search Input Count = " + searchInput.count());
+
+        System.out.println("Search Input Visible = " + searchInput.isVisible());
+
+        searchInput.fill(searchText);
+    }
+
+    public void clearSearch() {
+        if (clearSearchButton.isVisible()) {
+            clearSearchButton.click();
+        }
+    }
+    public String getSearchResultHeader() {
+        searchResultHeader.waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.VISIBLE));
+
+        return searchResultHeader.innerText().trim();
+    }
+
+    public int getVisibleCourseCount() {
+        courseCards.first().waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.VISIBLE));
+
+        return courseCards.count();
+    }
+
+    public List<String> getVisibleCourseTitles() {
+        return courseTitles.allInnerTexts()
+                .stream()
+                .map(String::trim)
+                .toList();
+    }
+
+    public void waitForDashboardToLoad() {
+        page.waitForURL(url -> url.contains("dashboard"));
+
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+
+        searchInput.waitFor(
+                new Locator.WaitForOptions()
+                        .setState(WaitForSelectorState.VISIBLE));
+    }
 
 }
+
+
