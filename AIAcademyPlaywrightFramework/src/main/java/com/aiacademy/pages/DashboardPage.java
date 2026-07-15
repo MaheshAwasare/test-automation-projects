@@ -23,6 +23,7 @@ public class DashboardPage {
     private final Locator searchResultHeader;
     private final Locator courseCards;
     private final Locator courseTitles;
+    private final Locator sidebar;
 
 
     public DashboardPage(Page page) {
@@ -45,9 +46,11 @@ public class DashboardPage {
         resumeButton=page.locator("a.dh-cta");
         searchInput = page.locator("input.hp-sb-search-input");
         clearSearchButton = page.getByLabel("Clear filter");
-        searchResultHeader = page.locator("h2");
+        searchResultHeader = page.locator(".search-results-header");
         courseCards = page.locator("a.course-card");
         courseTitles = page.locator("a.course-card h3");
+        sidebar=page.locator("aside.hp-sidebar");
+
     }
     public void clickAllCourses() {
 
@@ -114,9 +117,16 @@ public class DashboardPage {
 
     public void enterSearchText(String searchText) {
 
-        System.out.println("Search Input Count = " + searchInput.count());
+        searchInput.scrollIntoViewIfNeeded();
 
-        System.out.println("Search Input Visible = " + searchInput.isVisible());
+        searchInput.waitFor(
+                new Locator.WaitForOptions()
+                        .setState(WaitForSelectorState.VISIBLE)
+        );
+
+        searchInput.click();
+
+        searchInput.clear();
 
         searchInput.fill(searchText);
     }
@@ -127,21 +137,25 @@ public class DashboardPage {
         }
     }
     public String getSearchResultHeader() {
-        searchResultHeader.waitFor(new Locator.WaitForOptions()
-                .setState(WaitForSelectorState.VISIBLE));
+        searchResultHeader.waitFor(
+                new Locator.WaitForOptions()
+                        .setState(WaitForSelectorState.VISIBLE)
+        );
 
         return searchResultHeader.innerText().trim();
     }
 
     public int getVisibleCourseCount() {
-        courseCards.first().waitFor(new Locator.WaitForOptions()
-                .setState(WaitForSelectorState.VISIBLE));
-
-        return courseCards.count();
+        return (int) courseCards.filter(
+                new Locator.FilterOptions().setVisible(true)
+        ).count();
     }
 
     public List<String> getVisibleCourseTitles() {
-        return courseTitles.allInnerTexts()
+        return courseCards
+                .filter(new Locator.FilterOptions().setVisible(true))
+                .locator("h3")
+                .allInnerTexts()
                 .stream()
                 .map(String::trim)
                 .toList();

@@ -33,6 +33,7 @@ public class BaseTest {
     protected FreeCoursesPage freeCoursesPage;
     protected CourseDetailsPage courseDetailsPage;
     protected ModuleDetailsPage moduleDetailsPage;
+    protected ProfilePage profilePage;
 
 
     @BeforeMethod
@@ -68,6 +69,8 @@ public class BaseTest {
         freeCoursesPage = new FreeCoursesPage(getPage());
         courseDetailsPage = new CourseDetailsPage(getPage());
         moduleDetailsPage = new ModuleDetailsPage(getPage());
+        profilePage=new ProfilePage(getPage());
+
     }
    /* @AfterMethod
     public void captureFailure(ITestResult result){
