@@ -34,6 +34,7 @@ public class BaseTest {
     protected CourseDetailsPage courseDetailsPage;
     protected ModuleDetailsPage moduleDetailsPage;
     protected ProfilePage profilePage;
+    protected PacksPage packsPage;
 
 
     @BeforeMethod
@@ -70,6 +71,7 @@ public class BaseTest {
         courseDetailsPage = new CourseDetailsPage(getPage());
         moduleDetailsPage = new ModuleDetailsPage(getPage());
         profilePage=new ProfilePage(getPage());
+        packsPage=new PacksPage(getPage());
 
     }
    /* @AfterMethod

@@ -24,6 +24,7 @@ public class DashboardPage {
     private final Locator courseCards;
     private final Locator courseTitles;
     private final Locator sidebar;
+    private final Locator packsMenu;
 
 
     public DashboardPage(Page page) {
@@ -50,6 +51,7 @@ public class DashboardPage {
         courseCards = page.locator("a.course-card");
         courseTitles = page.locator("a.course-card h3");
         sidebar=page.locator("aside.hp-sidebar");
+        packsMenu = page.locator("a[href='/packs']");
 
     }
     public void clickAllCourses() {
@@ -169,6 +171,12 @@ public class DashboardPage {
         searchInput.waitFor(
                 new Locator.WaitForOptions()
                         .setState(WaitForSelectorState.VISIBLE));
+    }
+    public void clickPacksMenu() {
+
+        packsMenu.waitFor();
+
+        packsMenu.click();
     }
 
 }
