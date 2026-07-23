@@ -35,6 +35,7 @@ public class BaseTest {
     protected ModuleDetailsPage moduleDetailsPage;
     protected ProfilePage profilePage;
     protected PacksPage packsPage;
+    protected MyPathPage myPathPage;
 
 
     @BeforeMethod
@@ -72,6 +73,7 @@ public class BaseTest {
         moduleDetailsPage = new ModuleDetailsPage(getPage());
         profilePage=new ProfilePage(getPage());
         packsPage=new PacksPage(getPage());
+        myPathPage=new MyPathPage(getPage());
 
     }
    /* @AfterMethod

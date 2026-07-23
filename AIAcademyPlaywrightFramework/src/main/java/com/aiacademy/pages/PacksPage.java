@@ -20,11 +20,11 @@ public class PacksPage {
     private final Locator includedCourseCards;
     private final Locator description;
     private final Locator buyPackButton;
-
     private final Locator courseCards;
     private final Locator courseTitles;
     private final Locator courseDescriptions;
     private final Locator coursePrices;
+    private final Locator courseDetailHeading;
 
 
     public PacksPage(Page page){
@@ -52,17 +52,15 @@ public class PacksPage {
         courseDescriptions = page.locator("section.bundle-detail-panel .course-card p");
         coursePrices = page.locator("section.bundle-detail-panel " +
                 ".course-card .course-card-price");
-
+        courseDetailHeading = page.locator("h1");
     }
     public void waitForPacksPage() {
         page.waitForURL("**/packs");
         packsHeading.waitFor();
     }
-
     public boolean isPacksHeadingVisible() {
         return packsHeading.isVisible();
     }
-
     public String getPacksHeading() {
         return packsHeading.innerText().trim();
     }
@@ -73,77 +71,59 @@ public class PacksPage {
     public void waitForPackCards() {
         packCards.first().waitFor();
     }
-
     public int getPackCount() {
         return packCards.count();
     }
-
     public boolean isPackCardVisible(int index) {
         return packCards.nth(index).isVisible();
     }
-
     public String getPackTitle(int index) {
         return packTitles.nth(index).innerText().trim();
     }
     public String getPackBadge(int index) {
         return packBadges.nth(index).innerText().trim();
     }
-
     public String getPackDescription(int index) {
         return packDescriptions.nth(index).innerText().trim();
     }
-
     public boolean isBuyPackButtonVisible(int index) {
         return buyPackButtons.nth(index).isVisible();
     }
-
     public boolean isViewDetailsButtonVisible(int index) {
         return viewDetailsButtons.nth(index).isVisible();
     }
-
     public boolean isPackMetaVisible(int index) {
         return packMeta.nth(index).isVisible();
     }
     public String getPackFooterText(int index) {
         return packMeta.nth(index).innerText().trim();
     }
-
     public void navigateBackToPacks() {
-
         page.goBack();
-
         waitForPackCards();
     }
     public void waitForExpandedPackSection() {
-
         expandedPackSection.waitFor();
     }
     public void clickViewDetails(int index) {
-
         viewDetailsButtons.nth(index).scrollIntoViewIfNeeded();
         viewDetailsButtons.nth(index).waitFor();
         viewDetailsButtons.nth(index).click();
-
         waitForExpandedPackSection();
     }
     public boolean isExpandedPackSectionVisible() {
-
         return expandedPackSection.isVisible();
     }
     public String getExpandedPackHeading() {
-
         return expandedPackHeading.innerText().trim();
     }
     public String getExpandedPackPrice() {
-
         return expandedPackPrice.innerText().trim();
     }
     public boolean isExpandedBuyPackButtonVisible() {
-
         return expandedBuyPackButton.isVisible();
     }
     public int getIncludedCourseCount() {
-
         return includedCourseCards.count();
     }
     public boolean isDescriptionVisible() {
@@ -163,7 +143,5 @@ public class PacksPage {
         System.out.println("Course Price : " +coursePrices.nth(index).innerText().trim());
         return coursePrices.nth(index).innerText().trim();
     }
-
-
 
 }
