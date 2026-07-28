@@ -36,6 +36,7 @@ public class BaseTest {
     protected ProfilePage profilePage;
     protected PacksPage packsPage;
     protected MyPathPage myPathPage;
+    protected StartMyAIJourneyPage startMyAIJourneyPage;
 
 
     @BeforeMethod
@@ -74,6 +75,8 @@ public class BaseTest {
         profilePage=new ProfilePage(getPage());
         packsPage=new PacksPage(getPage());
         myPathPage=new MyPathPage(getPage());
+        startMyAIJourneyPage=new StartMyAIJourneyPage(getPage());
+
 
     }
    /* @AfterMethod
