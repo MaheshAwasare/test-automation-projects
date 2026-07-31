@@ -2,6 +2,7 @@ package com.aiacademy.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class StartMyAIJourneyPage {
     private final Page page;
@@ -116,6 +117,7 @@ public class StartMyAIJourneyPage {
 //=========================================================
 
     private final Locator previousCourseOptions;
+
 
     public StartMyAIJourneyPage(Page page) {
         this.page = page;
@@ -360,48 +362,85 @@ public class StartMyAIJourneyPage {
         option.waitFor();
         option.click();
     }
-    public void selectMultipleOptions(String... options){
+    public void selectMultipleOptions(String... options) {
 
-        for(String option : options){
+        for (String option : options) {
 
-            page.locator(".assess-option")
-                    .filter(new Locator.FilterOptions()
-                            .setHasText(option))
-                    .click();
+            Locator optionCard = page.locator(".assess-option")
+                    .filter(new Locator.FilterOptions().setHasText(option));
+
+            optionCard.scrollIntoViewIfNeeded();
+
+            optionCard.waitFor(
+                    new Locator.WaitForOptions()
+                            .setState(WaitForSelectorState.VISIBLE)
+            );
+
+            optionCard.click(
+                    new Locator.ClickOptions()
+                            .setForce(true)
+            );
         }
-
     }
-    public void clickContinueIfVisible(){
 
-        if(continueButton.isVisible()){
+    public void clickContinueIfVisible() {
 
-            continueButton.click();
+        continueButton.waitFor(
+                new Locator.WaitForOptions()
+                        .setState(WaitForSelectorState.VISIBLE)
+        );
 
-        }
+        page.waitForFunction(
+                "() => {" +
+                        "const btn=document.querySelector('button.assess-btn-primary');" +
+                        "return btn && !btn.disabled;" +
+                        "}"
+        );
 
+        continueButton.click();
     }
-    public void waitForNextQuestion(){
+    public void waitForNextQuestion() {
 
-        page.waitForTimeout(800);
+        String previousLabel = questionNumber.innerText().trim();
+
+        page.waitForFunction(
+                "(oldLabel) => {" +
+                        "const q = document.querySelector('.assess-progress-label');" +
+                        "return q && q.innerText.trim() !== oldLabel;" +
+                        "}",
+                previousLabel
+        );
     }
-    public void answerQuestion(String answer){
+    public void waitForContinueButtonToBeEnabled() {
+
+        page.waitForFunction(
+                "() => {" +
+                        "const btn=document.querySelector('button.assess-btn-primary');" +
+                        "return btn && !btn.disabled;" +
+                        "}"
+        );
+    }
+    public void answerQuestion(String answer) {
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Waiting for answer : " + answer);
 
         selectOptionContainingText(answer);
+        System.out.println(questionHeading.innerText());
+        System.out.println("-----------------------------------------------------");
 
-        clickContinueIfVisible();
+        //clickContinueIfVisible();
 
         waitForNextQuestion();
-
     }
-    public void answerMultiSelectQuestion(String... answers){
+    public void answerMultiSelectQuestion(String... answers) {
 
         selectMultipleOptions(answers);
 
         clickContinueIfVisible();
 
         waitForNextQuestion();
-
     }
+
     public boolean isQuestionDisplayed(String question){
 
         return questionHeading.innerText().trim().contains(question);

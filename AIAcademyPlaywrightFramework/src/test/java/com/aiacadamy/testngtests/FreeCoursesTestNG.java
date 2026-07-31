@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FreeCoursesTestNG extends BaseTest {
-    @Test
+    @Test(groups = {"sanity", "regression", "freecourse"},
+            priority = 5)
     public void verifyAllFreeCoursesForwardNavigation() {
 
         dashboardPage.clickAllCourses();
@@ -47,7 +48,8 @@ public class FreeCoursesTestNG extends BaseTest {
 
     }
 
-    @Test
+    @Test(groups = {"sanity", "regression", "freecourse"},
+            priority = 6)
     public void verifyAllFreeCoursesBackwardNavigation() {
         dashboardPage.clickAllCourses();
 
@@ -80,7 +82,8 @@ public class FreeCoursesTestNG extends BaseTest {
         }
     }
 
-    @Test
+    @Test( groups = {"sanity", "regression", "freecourse"},
+            priority = 7)
     public void verifyAllFreeCoursesSidebarNavigation() {
         dashboardPage.clickAllCourses();
 
@@ -110,7 +113,8 @@ public class FreeCoursesTestNG extends BaseTest {
 
         }
     }
-    @Test
+    @Test(groups = {"regression", "freecourse"},
+            priority = 8)
     public void verifyAllFreeCoursesReelMode() {
         dashboardPage.clickAllCourses();
         List<String> freeCourses = freeCoursesPage.getAllFreeCourseNames();
@@ -136,7 +140,8 @@ public class FreeCoursesTestNG extends BaseTest {
 
         }
     }
-    @Test
+    @Test( groups = {"sanity", "regression", "freecourse"},
+            priority = 9)
     public void verifyBreadcrumb() {
         dashboardPage.clickAllCourses();
         List<String> freeCourses = freeCoursesPage.getAllFreeCourseNames();

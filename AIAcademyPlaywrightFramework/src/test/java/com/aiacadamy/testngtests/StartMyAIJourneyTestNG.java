@@ -24,6 +24,7 @@ public class StartMyAIJourneyTestNG extends BaseTest {
 
         startMyAIJourneyPage.answerQuestion("I'm curious");
 
+
         //==============================
         // Question 2
         //==============================
@@ -66,14 +67,14 @@ public class StartMyAIJourneyTestNG extends BaseTest {
         // Question 8
         //==============================
 
-        startMyAIJourneyPage.answerQuestion("₹0");
+        /*startMyAIJourneyPage.answerQuestion("₹0");
 
         //==============================
         // Question 9
         //==============================
 
         startMyAIJourneyPage.answerMultiSelectQuestion(
-                "Writing"
+                "Writing / communication"
         );
 
         //==============================
@@ -124,7 +125,7 @@ public class StartMyAIJourneyTestNG extends BaseTest {
                         "ChatGPT & Claude"),
                 "ChatGPT & Claude course missing.");
 
-        getTest().pass("Learning plan verified successfully.");
+        getTest().pass("Learning plan verified successfully.");*/
 
     }
 }

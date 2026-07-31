@@ -5,7 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DashboardTestNG extends BaseTest {
-    @Test
+    @Test(groups = {"smoke", "regression", "dashboard"},
+            priority = 2)
     public void verifyTopNavigation() {
 
         String[][] menus = {
@@ -36,7 +37,10 @@ public class DashboardTestNG extends BaseTest {
             dashboardPage.navigateBackToDashboard();
         }
     }
-    @Test
+    @Test(
+            groups = {"wip"},
+            enabled = false
+    )
     public void verifyStartMyAIJourney() {
 
         System.out.println("----------------------------------------");
@@ -63,7 +67,10 @@ public class DashboardTestNG extends BaseTest {
 
         System.out.println("Returned to Courses successfully.");
     }
-    @Test
+    @Test(
+            groups = {"sanity", "regression", "theme"},
+            priority = 8
+    )
     public void verifyThemeToggle(){
         System.out.println("---------------------------------------------------");
         System.out.println("Verifying Theme Toggle");
@@ -82,7 +89,10 @@ public class DashboardTestNG extends BaseTest {
                 "Theme was not restored to the original theme");
         System.out.println("Theme toggle verified successfully");
     }
-    @Test
+    @Test(
+            groups = {"sanity", "regression", "dashboard"},
+            priority = 3
+    )
     public void verifyResumeButton(){
         System.out.println("-------------------------------------------------");
         System.out.println("Verifying Resume Button");

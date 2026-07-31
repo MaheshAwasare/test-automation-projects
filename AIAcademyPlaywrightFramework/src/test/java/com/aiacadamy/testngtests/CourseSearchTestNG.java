@@ -8,7 +8,9 @@ import java.util.List;
 
 public class CourseSearchTestNG extends BaseTest {
 
-    @Test(description = "Verify user can search a course using complete course name")
+    @Test(description = "Verify user can search a course using complete course name",
+            groups = {"sanity", "regression", "search"},
+            priority = 3)
     public void verifySearchCourseByCompleteCourseName() {
 
         String expectedCourseName = "Before You Code (FREE)";
@@ -35,7 +37,9 @@ public class CourseSearchTestNG extends BaseTest {
         );
     }
 
-    @Test(description = "Verify user can search a course using partial course name")
+    @Test(description = "Verify user can search a course using partial course name",
+            groups = {"sanity", "regression", "search"},
+            priority = 4)
     public void verifySearchCourseByPartialCourseName() {
 
         String expectedCourseName = "Before You";
