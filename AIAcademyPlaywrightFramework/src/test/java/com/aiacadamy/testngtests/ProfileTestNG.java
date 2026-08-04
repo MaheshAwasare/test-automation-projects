@@ -6,7 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ProfileTestNG extends BaseTest {
-    @Test
+    @Test( priority = 1,
+            groups = {"smoke","Sanity","Regression"})
     public void verifyProfilePageNavigation() {
         profilePage.clickProfileMenu();
 
@@ -14,7 +15,8 @@ public class ProfileTestNG extends BaseTest {
 
         Assert.assertTrue(profilePage.isProfileHeadingVisible());
     }
-    @Test(priority = 2)
+    @Test( priority = 2,
+            groups = {"sanity","Regression"})
     public void verifyAccountInformation() {
         profilePage.clickProfileMenu();
         Assert.assertTrue(
@@ -38,7 +40,8 @@ public class ProfileTestNG extends BaseTest {
                 "Member Since is empty."
         );
     }
-    @Test(priority = 4)
+    @Test( priority = 3,
+            groups = {"sanity","Regression"})
     public void verifyMyCoursesSection() {
         profilePage.clickProfileMenu();
         Assert.assertTrue(
@@ -50,7 +53,8 @@ public class ProfileTestNG extends BaseTest {
                 "No enrolled courses are displayed."
         );
     }
-    @Test(priority = 5)
+    @Test(priority = 4,
+            groups = {"Regression"})
     public void verifyAllCourseCards() {
 
         profilePage.clickProfileMenu();
@@ -77,7 +81,8 @@ public class ProfileTestNG extends BaseTest {
             );
         }
     }
-    @Test(priority = 6)
+    @Test(priority = 5,
+            groups = {"sanity","Regression"})
     public void verifyCourseNavigationFromProfile() {
 
         profilePage.clickProfileMenu();
@@ -106,7 +111,8 @@ public class ProfileTestNG extends BaseTest {
             profilePage.navigateBackToProfile();
         }
     }
-    @Test(priority = 7)
+    @Test( priority = 6,
+            groups = {"sanity","Regression"})
     public void verifyBuildMyPlanNavigation() {
 
         profilePage.clickProfileMenu();
@@ -126,7 +132,8 @@ public class ProfileTestNG extends BaseTest {
         );
 
     }
-    @Test(priority = 8)
+    @Test(priority = 7,
+            groups = {"sanity","Regression"})
     public void verifyChangePasswordSection() {
 
         // Navigate to Profile Page
@@ -165,7 +172,8 @@ public class ProfileTestNG extends BaseTest {
                 "Change Password button is not visible."
         );
     }
-    @Test(priority = 9)
+    @Test( priority = 8,
+            groups = {"Regression"})
     public void verifyChangePasswordPlaceholders() {
         profilePage.clickProfileMenu();
         profilePage.waitForProfilePage();
@@ -189,7 +197,8 @@ public class ProfileTestNG extends BaseTest {
                 "Confirm Password placeholder mismatch."
         );
     }
-    @Test(priority = 10)
+    @Test(priority = 9,
+            groups = {"Regression"})
     public void verifyPasswordMismatchValidation() {
         profilePage.clickProfileMenu();
         profilePage.waitForProfilePage();
@@ -207,7 +216,8 @@ public class ProfileTestNG extends BaseTest {
                 "Incorrect validation message displayed."
         );
     }
-    @Test(priority = 11)
+    @Test( priority = 10,
+            groups = {"Regression"})
     public void verifyIncorrectCurrentPasswordValidation() {
         profilePage.clickProfileMenu();
 
@@ -226,7 +236,10 @@ public class ProfileTestNG extends BaseTest {
                 "Incorrect validation message displayed."
         );
     }
-    @Test
+    @Test(
+            priority = 11,
+            groups = {"Regression"}
+    )
     public void verifySuccessfulPasswordChangeValidation() {
         profilePage.clickProfileMenu();
 

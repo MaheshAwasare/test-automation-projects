@@ -5,7 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PacksTestNG extends BaseTest {
-    @Test(priority = 1)
+    @Test( priority = 10,
+            groups = {"sanity", "regression", "packs"})
     public void verifyPacksPageNavigation() {
         dashboardPage.clickPacksMenu();
         packsPage.waitForPacksPage();
@@ -23,7 +24,8 @@ public class PacksTestNG extends BaseTest {
                 "Incorrect Packs page URL."
         );
     }
-    @Test(priority = 2)
+    @Test( priority = 11,
+            groups = {"sanity", "regression", "packs"})
     public void verifyAllPackCardsDisplayed() {
         dashboardPage.clickPacksMenu();
         packsPage.waitForPacksPage();
@@ -50,7 +52,8 @@ public class PacksTestNG extends BaseTest {
             );
         }
     }
-    @Test(priority = 3)
+    @Test( priority = 12,
+            groups = {"regression", "packs"})
     public void verifyPackCardContents() {
         dashboardPage.clickPacksMenu();
         packsPage.waitForPacksPage();
@@ -101,7 +104,8 @@ public class PacksTestNG extends BaseTest {
                     "Footer missing at index " + i);
         }
     }
-    @Test(priority = 4)
+    @Test(priority = 13,
+            groups = {"sanity", "regression", "packs"})
     public void verifyViewDetailsExpandsSelectedPack() {
         dashboardPage.clickPacksMenu();
         packsPage.waitForPacksPage();
@@ -125,7 +129,8 @@ public class PacksTestNG extends BaseTest {
                 "No included course cards are displayed."
         );
     }
-    @Test(priority = 5)
+    @Test( priority = 14,
+            groups = {"regression", "packs"})
     public void verifyPackDetailsContent() {
         dashboardPage.clickPacksMenu();
         packsPage.waitForPacksPage();

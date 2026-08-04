@@ -15,9 +15,7 @@ import com.aiacadamy.base.BaseTest;
 import java.io.IOException;
 
 public class LoginTestNG extends BaseTest {
-    @Test(dataProvider = "loginData",dataProviderClass = LoginDataProvider.class,
-            groups = {"smoke", "sanity", "regression", "login"},
-    priority = 1)
+    @Test(dataProvider = "loginData",dataProviderClass = LoginDataProvider.class)
     public void verifyLogin(String email,String password,
                             String expectedResult,String expectedMessage){
         //test=extent.createTest("Login Test");----(added in BaseTest)
@@ -42,6 +40,8 @@ public class LoginTestNG extends BaseTest {
             Assert.fail("Invalid ExpectedResult value in Excel : "+expectedResult);
 
         }
+        loginPage.clickLogoutButton();
+        getPage().waitForTimeout(3000);
        /* System.out.println("Current URL = " + page.url());
         System.out.println("Page Title = " + page.title()); */
 
