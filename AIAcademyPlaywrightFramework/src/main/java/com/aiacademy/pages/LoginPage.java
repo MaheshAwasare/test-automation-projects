@@ -2,6 +2,7 @@ package com.aiacademy.pages;
 
 import com.aiacademy.utils.ConfigReader;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 
 public class LoginPage {
     private Page page;
@@ -15,7 +16,11 @@ public class LoginPage {
         page.waitForTimeout(5000);
     }
     public void clickLoginButton(){
-        page.locator("text=Login").click();
+                page.getByRole(
+                        AriaRole.LINK,
+                        new Page.GetByRoleOptions().setName("Login")
+                ).first()
+                .click();
 
         page.waitForTimeout(5000);
     }

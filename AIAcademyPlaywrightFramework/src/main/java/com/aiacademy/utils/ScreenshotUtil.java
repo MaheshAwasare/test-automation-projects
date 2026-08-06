@@ -6,6 +6,9 @@ import java.nio.file.Paths;
 
 public class ScreenshotUtil {
     public static String takeScreenshot(Page page, String fileName) {
+        if (page == null) {
+            return "";
+        }
         String path = "screenshots/" + fileName + ".png";
         page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get
                 (path)));

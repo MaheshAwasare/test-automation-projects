@@ -9,10 +9,14 @@ import org.testng.annotations.Test;
 
 
 public class ForgotPasswordTestNG extends BaseTest {
+    @Override
+    protected boolean skipAutoLogin() {
+        return true;
+    }
     @Test
     public void verifyForgotPasswordLink(){
         LoginPage loginpage=new LoginPage(getPage());
-        loginpage.openHomePage();
+        //loginpage.openHomePage();
         loginpage.clickLoginButton();
 
         ForgotPasswordPage forgotPasswordPage=new ForgotPasswordPage(getPage());

@@ -7,14 +7,6 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 public class TestListener implements ITestListener {
-
-    @Override
-    public void onTestStart(ITestResult result){
-        BaseTest baseTest = (BaseTest)result.getInstance();
-        baseTest.getTest().info("Test Started : "
-                + result.getName());
-
-    }
     @Override
     public void onTestSuccess(ITestResult result){
         BaseTest baseTest = (BaseTest)result.getInstance();
@@ -28,22 +20,30 @@ public class TestListener implements ITestListener {
                 + result.getName());
         BaseTest baseTest = (BaseTest)result.getInstance();
 
-        String screenshotPath = ScreenshotUtil.takeScreenshot(baseTest.getPage(),
-                result.getName());
+        if (baseTest.getTest() != null) {
+            baseTest.getTest().fail(result.getThrowable());
+        }
 
-        baseTest.getTest().fail(result.getThrowable());
+        try {
 
-        baseTest.getTest().fail("Failure Screenshot",
-                MediaEntityBuilder.createScreenCaptureFromPath("../" + screenshotPath).build());
+            if (baseTest.getPage() != null) {
 
-        System.out.println("Failure Screenshot Captured");
+                String screenshotPath = ScreenshotUtil.takeScreenshot(
+                        baseTest.getPage(),
+                        result.getName());
+
+                if (baseTest.getTest() != null) {
+                    baseTest.getTest().fail(
+                            "Failure Screenshot",
+                            MediaEntityBuilder.createScreenCaptureFromPath("../" + screenshotPath).build());
+                }
+
+                System.out.println("Failure Screenshot Captured");
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("Screenshot could not be captured.");
+        }
     }
-
-    @Override
-    public void onTestSkipped(ITestResult result){
-        BaseTest baseTest = (BaseTest)result.getInstance();
-        baseTest.getTest().info("Test Skipped : "
-                + result.getName());
-    }
-
 }
