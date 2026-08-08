@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 public class ProfileTestNG extends BaseTest {
     @Test( priority = 1,
-            groups = {"smoke","Sanity","Regression"})
+            groups = {"smoke","sanity","Regression"})
     public void verifyProfilePageNavigation() {
         profilePage.clickProfileMenu();
 

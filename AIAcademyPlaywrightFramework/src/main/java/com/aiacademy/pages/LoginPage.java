@@ -16,10 +16,7 @@ public class LoginPage {
         page.waitForTimeout(5000);
     }
     public void clickLoginButton(){
-                page.getByRole(
-                        AriaRole.LINK,
-                        new Page.GetByRoleOptions().setName("Login")
-                ).first()
+        page.locator("a[href='/login']").first()
                 .click();
 
         page.waitForTimeout(5000);

@@ -28,6 +28,7 @@ public class BlogPage {
         return page.url().contains("/blog");
     }
     public boolean areBlogCardsDisplayed() {
+        page.waitForSelector(".blog-card");
         int count = page.locator(".blog-card").count();
 
         System.out.println("Blog Count = " + count);
@@ -37,6 +38,9 @@ public class BlogPage {
 
     public int getBlogCount() {
         return page.locator(blogCards).count();
+    }
+    public void openFirstBlog(){
+        page.locator(blogCards).first().click();
     }
 
 }

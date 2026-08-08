@@ -2,7 +2,12 @@ package com.aiacademy.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
+
+import java.util.regex.Pattern;
 
 public class StartMyAIJourneyPage {
     private final Page page;
@@ -178,8 +183,11 @@ public class StartMyAIJourneyPage {
         // Question 2
         //-----------------------------------------------------
 
-        nonTechnicalOption =
-                page.getByText("Non-technical", new Page.GetByTextOptions().setExact(false));
+        nonTechnicalOption = page.getByRole(
+                AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName("1 Non-technical — I don't write code")
+        );
+        ;
 
         spreadsheetOption =
                 page.getByText("spreadsheets", new Page.GetByTextOptions().setExact(false));
@@ -352,16 +360,28 @@ public class StartMyAIJourneyPage {
         return archetypeTagline.innerText().trim();
 
     }
+
     public void selectOptionContainingText(String text) {
+        System.out.println("Current Question : " + questionHeading.innerText());
 
-        Locator option =
-                page.locator(".assess-option")
-                        .filter(new Locator.FilterOptions()
-                                .setHasText(text));
+        Locator option = page.locator("button.assess-option")
+                .filter(new Locator.FilterOptions().setHasText(text));
 
-        option.waitFor();
-        option.click();
+        int count = option.count();
+
+        System.out.println("Searching : " + text);
+        System.out.println("Found : " + count);
+
+        if (count == 0) {
+            throw new RuntimeException("No option found containing : " + text);
+        }
+
+        option.first().scrollIntoViewIfNeeded();
+        option.first().click();
+
+        page.waitForTimeout(500);   // temporary stabilization while debugging
     }
+
     public void selectMultipleOptions(String... options) {
 
         for (String option : options) {
@@ -398,20 +418,7 @@ public class StartMyAIJourneyPage {
         );
 
         continueButton.click();
-    }
-    public void waitForNextQuestion() {
-
-        String previousLabel = questionNumber.innerText().trim();
-
-        page.waitForFunction(
-                "(oldLabel) => {" +
-                        "const q = document.querySelector('.assess-progress-label');" +
-                        "return q && q.innerText.trim() !== oldLabel;" +
-                        "}",
-                previousLabel
-        );
-    }
-    public void waitForContinueButtonToBeEnabled() {
+    }    public void waitForContinueButtonToBeEnabled() {
 
         page.waitForFunction(
                 "() => {" +
@@ -421,24 +428,21 @@ public class StartMyAIJourneyPage {
         );
     }
     public void answerQuestion(String answer) {
-        System.out.println("-----------------------------------------------------");
-        System.out.println("Waiting for answer : " + answer);
+        System.out.println("------------------------------------------------");
+        System.out.println("Current Question : " + questionHeading.innerText());
+        System.out.println("Expected Answer  : " + answer);
 
         selectOptionContainingText(answer);
-        System.out.println(questionHeading.innerText());
-        System.out.println("-----------------------------------------------------");
 
-        //clickContinueIfVisible();
+        System.out.println("Moved to Question : " + questionHeading.innerText());
+        System.out.println("------------------------------------------------");
 
-        waitForNextQuestion();
     }
     public void answerMultiSelectQuestion(String... answers) {
 
         selectMultipleOptions(answers);
 
         clickContinueIfVisible();
-
-        waitForNextQuestion();
     }
 
     public boolean isQuestionDisplayed(String question){

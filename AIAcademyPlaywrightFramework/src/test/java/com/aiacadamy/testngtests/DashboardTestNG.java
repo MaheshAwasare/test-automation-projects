@@ -1,7 +1,9 @@
 package com.aiacadamy.testngtests;
 
 import com.aiacadamy.base.BaseTest;
+import com.aiacademy.pages.DashboardPage;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class DashboardTestNG extends BaseTest {

@@ -22,7 +22,7 @@ public class LoginTestNG extends BaseTest {
     @Test(priority = 1,groups = {"smoke", "sanity", "regression"})
     public void verifyLogin() {
 
-        LoginPage loginPage = new LoginPage(getPage());
+        loginPage = new LoginPage(getPage());
 
         // Open Login Page
         //loginPage.openHomePage();

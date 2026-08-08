@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class BlogTestNG extends BaseTest {
     @Test(priority = 1,
-            groups = {"Smoke","Sanity","Regression"})
+            groups = {"smoke","sanity","Regression"})
     public void verifyBlogNavigation() {
 
         blogPage.clickBlogMenu();
@@ -22,7 +22,7 @@ public class BlogTestNG extends BaseTest {
         );
     }
     @Test(priority = 2,
-            groups = {"Sanity","Regression"})
+            groups = {"sanity","Regression"})
     public void verifyBlogCardsDisplayed() {
 
         blogPage.clickBlogMenu();
@@ -31,7 +31,27 @@ public class BlogTestNG extends BaseTest {
                 blogPage.areBlogCardsDisplayed(),
                 "Blog cards are not displayed."
         );
-
-        System.out.println("Total Blogs : " + blogPage.getBlogCount());
     }
+    @Test(priority = 3,
+            groups = {"sanity", "Regression"})
+    public void verifyReadArticle() {
+
+        blogPage.clickBlogMenu();
+
+        String blogListingURL = blogPage.getCurrentURL();
+
+        blogPage.openFirstBlog();
+
+        Assert.assertNotEquals(
+                blogPage.getCurrentURL(),
+                blogListingURL,
+                "Blog article did not open."
+        );
+
+        Assert.assertTrue(
+                blogPage.getCurrentURL().contains("/blog/"),
+                "Invalid blog article URL."
+        );
+    }
+
 }

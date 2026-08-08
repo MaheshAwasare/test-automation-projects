@@ -40,63 +40,52 @@ public class BaseTest {
     protected BlogPage blogPage;
 
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup(Method method) {
+
         System.out.println("===== SETUP STARTED =====");
         System.out.println("Test Name: " + method.getName());
-        extent= ExtentManager.getExtentReports();
-        //test= extent.createTest(method.getName());
+
+        extent = ExtentManager.getExtentReports();
         test.set(extent.createTest(method.getName()));
         test.get().info("Test Started : " + method.getName());
-        System.out.println("Extent Test Created Successfully");
 
         playwright.set(Playwright.create());
 
-        browser.set(playwright.get().chromium().launch(
-                new BrowserType.LaunchOptions()
-                        .setHeadless(false).setSlowMo(500))
+        browser.set(
+                playwright.get().chromium().launch(
+                        new BrowserType.LaunchOptions()
+                                .setHeadless(false)
+                                .setSlowMo(500)
+                )
         );
 
-       // page.set(browser.get().newPage());
         context.set(browser.get().newContext());
         page.set(context.get().newPage());
 
         page.get().navigate(ConfigReader.getProperty("base.url"));
-    }
-    @BeforeMethod(dependsOnMethods = "setup")
-    public void loginToApplication(Method method) {
 
-        if (skipAutoLogin()) {
-            return;
+        // Auto login (unless skipped)
+        if (!skipAutoLogin()) {
+
+            loginPage = new LoginPage(getPage());
+
+            loginPage.clickLoginButton();
+            loginPage.enterEmail(ConfigReader.getProperty("test.email"));
+            loginPage.enterPassword(ConfigReader.getProperty("test.password"));
+            loginPage.clickOnSignInButton();
+
+            dashboardPage = new DashboardPage(getPage());
+            freeCoursesPage = new FreeCoursesPage(getPage());
+            courseDetailsPage = new CourseDetailsPage(getPage());
+            moduleDetailsPage = new ModuleDetailsPage(getPage());
+            profilePage = new ProfilePage(getPage());
+            packsPage = new PacksPage(getPage());
+            myPathPage = new MyPathPage(getPage());
+            startMyAIJourneyPage = new StartMyAIJourneyPage(getPage());
+            blogPage = new BlogPage(getPage());
         }
-
-        loginPage = new LoginPage(getPage());
-
-        loginPage.clickLoginButton();
-
-        loginPage.enterEmail(ConfigReader.getProperty("test.email"));
-
-        loginPage.enterPassword(ConfigReader.getProperty("test.password"));
-
-        loginPage.clickOnSignInButton();
-
-        dashboardPage = new DashboardPage(getPage());
-        freeCoursesPage = new FreeCoursesPage(getPage());
-        courseDetailsPage = new CourseDetailsPage(getPage());
-        moduleDetailsPage = new ModuleDetailsPage(getPage());
-        profilePage = new ProfilePage(getPage());
-        packsPage = new PacksPage(getPage());
-        myPathPage = new MyPathPage(getPage());
-        startMyAIJourneyPage = new StartMyAIJourneyPage(getPage());
-        blogPage = new BlogPage(getPage());
     }
-   /* @AfterMethod
-    public void captureFailure(ITestResult result){
-        if(result.getStatus()==ITestResult.FAILURE){
-            ScreenshotUtil.takeScreenshot(page, result.getName());
-            System.out.println("Failure Screenshot Captured");
-        }
-    }*/
     @AfterMethod
     public void tearDown() {
         extent.flush();

@@ -1,6 +1,12 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="Regression Suite">
+<suite name="Sanity Suite"
+       parallel="false"
+       preserve-order="true">
+
+    <listeners>
+        <listener class-name="com.aiacadamy.listeners.TestListener"/>
+    </listeners>
 
     <test name="Regression Tests">
 
@@ -10,9 +16,13 @@
             </run>
         </groups>
 
-        <packages>
-            <package name="com.aiacademy.testngtests"/>
-        </packages>
+        <classes>
+
+            <class name="com.aiacadamy.testngtests.LoginTestNG"/>
+
+            <class name="com.aiacadamy.testngtests.DashboardTestNG"/>
+
+        </classes>
 
     </test>
 
