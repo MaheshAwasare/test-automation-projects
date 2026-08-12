@@ -1,21 +1,22 @@
 package com.aiacademy.pages;
 
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
 public class BlogPage {
     private Page page;
-    private String blogMenu;
-    private String blogCards;
+    private Locator blogMenu;
+    private Locator blogCards;
 
     public BlogPage(Page page) {
         this.page = page;
-        blogMenu = "a[href='/blog']";
-        blogCards = ".blog-card";
+        blogMenu = page.locator("header .nav-btn[href='/blog']");
+        blogCards = page.locator(".blog-card");
     }
 
     // Click Blog Menu
     public void clickBlogMenu() {
-        page.locator(blogMenu).click();
+        blogMenu.click();
     }
 
     // Current URL
@@ -37,10 +38,10 @@ public class BlogPage {
     }
 
     public int getBlogCount() {
-        return page.locator(blogCards).count();
+        return blogCards.count();
     }
     public void openFirstBlog(){
-        page.locator(blogCards).first().click();
+        blogCards.first().click();
     }
 
 }

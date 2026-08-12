@@ -74,8 +74,9 @@ public class BaseTest {
             loginPage.enterEmail(ConfigReader.getProperty("test.email"));
             loginPage.enterPassword(ConfigReader.getProperty("test.password"));
             loginPage.clickOnSignInButton();
-
+            page.get().waitForTimeout(5000);
             dashboardPage = new DashboardPage(getPage());
+            dashboardPage.waitForDashboardToLoad();
             freeCoursesPage = new FreeCoursesPage(getPage());
             courseDetailsPage = new CourseDetailsPage(getPage());
             moduleDetailsPage = new ModuleDetailsPage(getPage());
@@ -88,7 +89,6 @@ public class BaseTest {
     }
     @AfterMethod
     public void tearDown() {
-        extent.flush();
         context.get().close();
         browser.get().close();
         playwright.get().close();

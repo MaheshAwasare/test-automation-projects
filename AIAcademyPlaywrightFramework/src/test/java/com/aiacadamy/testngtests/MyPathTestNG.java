@@ -5,7 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class MyPathTestNG extends BaseTest {
-    @Test(description = "Verify user can navigate to My Path page")
+    @Test(description = "Verify user can navigate to My Path page",
+            groups = {"sanity", "regression"},
+            priority = 11)
     public void verifyMyPathNavigation() {
         dashboardPage.clickMyPath();
         Assert.assertTrue(
@@ -43,7 +45,9 @@ public class MyPathTestNG extends BaseTest {
 
         getTest().pass("Verified My Path page contents successfully.");
     }
-    @Test(description = "Verify all Learning Path cards are displayed")
+    @Test(description = "Verify all Learning Path cards are displayed",
+            groups = {"sanity", "regression"},
+            priority = 12)
     public void verifyAllLearningPathCardsDisplayed() {
 
         dashboardPage.clickMyPath();
@@ -63,7 +67,9 @@ public class MyPathTestNG extends BaseTest {
         getTest().pass("Verified all Learning Path cards are displayed successfully.");
     }
 
-    @Test(description = "Verify contents of all Learning Path cards")
+    @Test(description = "Verify contents of all Learning Path cards",
+            groups = {"sanity", "regression"},
+            priority = 13)
     public void verifyLearningPathCardContents() {
 
         dashboardPage.clickMyPath();
@@ -96,7 +102,9 @@ public class MyPathTestNG extends BaseTest {
 
         getTest().pass("Verified contents of all Learning Path cards successfully.");
     }
-    @Test(description = "Verify Choose This Path navigation")
+    @Test(description = "Verify Choose This Path navigation",
+            groups = {"sanity", "regression"},
+            priority = 14)
     public void verifyChoosePathNavigation() {
 
         dashboardPage.clickMyPath();

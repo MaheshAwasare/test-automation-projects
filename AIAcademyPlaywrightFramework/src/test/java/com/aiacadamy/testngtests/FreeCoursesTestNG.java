@@ -114,7 +114,7 @@ public class FreeCoursesTestNG extends BaseTest {
         }
     }
     @Test(groups = {"regression", "freecourse"},
-            priority = 8)
+            priority = 9)
     public void verifyAllFreeCoursesReelMode() {
         dashboardPage.clickAllCourses();
         List<String> freeCourses = freeCoursesPage.getAllFreeCourseNames();
@@ -141,7 +141,7 @@ public class FreeCoursesTestNG extends BaseTest {
         }
     }
     @Test( groups = {"sanity", "regression", "freecourse"},
-            priority = 9)
+            priority = 10)
     public void verifyBreadcrumb() {
         dashboardPage.clickAllCourses();
         List<String> freeCourses = freeCoursesPage.getAllFreeCourseNames();

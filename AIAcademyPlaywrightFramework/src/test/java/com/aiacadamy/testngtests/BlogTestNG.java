@@ -5,8 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class BlogTestNG extends BaseTest {
-    @Test(priority = 1,
-            groups = {"smoke","sanity","Regression"})
+    @Test(priority = 30,
+            groups = {"smoke","sanity","regression"})
     public void verifyBlogNavigation() {
 
         blogPage.clickBlogMenu();
@@ -21,8 +21,8 @@ public class BlogTestNG extends BaseTest {
                 "Blog page is not visible."
         );
     }
-    @Test(priority = 2,
-            groups = {"sanity","Regression"})
+    @Test(priority = 31,
+            groups = {"sanity","regression"})
     public void verifyBlogCardsDisplayed() {
 
         blogPage.clickBlogMenu();
@@ -32,8 +32,8 @@ public class BlogTestNG extends BaseTest {
                 "Blog cards are not displayed."
         );
     }
-    @Test(priority = 3,
-            groups = {"sanity", "Regression"})
+    @Test(priority = 32,
+            groups = {"sanity", "regression"})
     public void verifyReadArticle() {
 
         blogPage.clickBlogMenu();

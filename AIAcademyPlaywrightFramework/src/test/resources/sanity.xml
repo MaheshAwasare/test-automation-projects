@@ -19,8 +19,10 @@
         <classes>
 
             <class name="com.aiacadamy.testngtests.LoginTestNG"/>
-
             <class name="com.aiacadamy.testngtests.DashboardTestNG"/>
+            <class name="com.aiacadamy.testngtests.BlogTestNG"/>
+
+
 
         </classes>
 

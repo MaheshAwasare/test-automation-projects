@@ -29,6 +29,13 @@ public class LoginPage {
     }
     public void clickOnSignInButton(){
         page.locator(".auth-btn").click();
+
+        page.waitForTimeout(5000);
+
+        System.out.println("Current URL : " + page.url());
+
+        System.out.println("Page Title : " + page.title());
+
     }
     public void clickLogoutButton() {
         page.locator("text=Logout").click();

@@ -31,7 +31,6 @@ public class DashboardPage {
     public DashboardPage(Page page) {
 
         this.page = page;
-
         this.allCoursesButton = page.getByRole(
                 AriaRole.TAB,
                 new Page.GetByRoleOptions()
@@ -51,11 +50,11 @@ public class DashboardPage {
         searchResultHeader = page.locator(".search-results-header");
         courseCards = page.locator("a.course-card");
         courseTitles = page.locator("a.course-card h3");
-        sidebar=page.locator("aside.hp-sidebar");
-        packsMenu = page.locator("a[href='/packs']");
-        myPathMenu=page.locator("a[href='/my-path']");
-
+        sidebar= page.locator("aside.hp-sidebar");
+        packsMenu = page.locator("header nav a.nav-btn[href='/packs']");
+        myPathMenu= page.locator("header nav a.nav-btn[href='/my-path']");
     }
+
     public void clickAllCourses() {
 
         allCoursesButton.waitFor();
@@ -166,13 +165,9 @@ public class DashboardPage {
     }
 
     public void waitForDashboardToLoad() {
-        page.waitForURL(url -> url.contains("dashboard"));
-
-        page.waitForLoadState(LoadState.NETWORKIDLE);
-
-        searchInput.waitFor(
-                new Locator.WaitForOptions()
-                        .setState(WaitForSelectorState.VISIBLE));
+        page.waitForLoadState();
+        packsMenu.waitFor();
+        System.out.println("Dashboard Loaded");
     }
     public void clickPacksMenu() {
 

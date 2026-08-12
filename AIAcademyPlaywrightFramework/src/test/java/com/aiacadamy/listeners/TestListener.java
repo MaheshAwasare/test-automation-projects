@@ -1,8 +1,10 @@
 package com.aiacadamy.listeners;
 
 import com.aiacadamy.base.BaseTest;
+import com.aiacademy.utils.ExtentManager;
 import com.aiacademy.utils.ScreenshotUtil;
 import com.aventstack.extentreports.MediaEntityBuilder;
+import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
@@ -45,5 +47,10 @@ public class TestListener implements ITestListener {
 
             System.out.println("Screenshot could not be captured.");
         }
+    }
+    @Override
+    public void onFinish(ITestContext context) {
+
+        ExtentManager.getExtentReports().flush();
     }
 }
